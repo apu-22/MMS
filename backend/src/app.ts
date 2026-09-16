@@ -3,6 +3,7 @@ import cors from 'cors';
 import { env } from './config/env';
 import authRoutes from './routes/auth.routes';
 import messRoutes from './routes/mess.routes';
+import mealRoutes from './routes/meal.routes';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/messes', messRoutes);
+app.use('/api/meals', mealRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req: Request, res: Response) => {

@@ -31,19 +31,28 @@ export const DashboardPage: FC = () => {
               MessManager
             </span>
             <span className="ml-2 text-xs bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded-full border border-emerald-300">
-              Phase 3 Active
+              Phase 4 Active
             </span>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {activeMess?.status === 'ACTIVE' && (
-              <Link
-                to="/members"
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-emerald-50 rounded-xl border border-slate-200 hover:border-emerald-200 transition-all cursor-pointer"
-              >
-                <Users className="w-4 h-4 text-emerald-600" />
-                <span>Members Directory</span>
-              </Link>
+              <>
+                <Link
+                  to="/meals"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-emerald-50 rounded-xl border border-slate-200 hover:border-emerald-200 transition-all cursor-pointer"
+                >
+                  <Utensils className="w-4 h-4 text-emerald-600" />
+                  <span>Daily Meals</span>
+                </Link>
+                <Link
+                  to="/members"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-emerald-50 rounded-xl border border-slate-200 hover:border-emerald-200 transition-all cursor-pointer"
+                >
+                  <Users className="w-4 h-4 text-emerald-600" />
+                  <span>Members</span>
+                </Link>
+              </>
             )}
 
             <div className="hidden sm:flex items-center gap-2 text-sm text-slate-700 font-medium">
@@ -131,14 +140,24 @@ export const DashboardPage: FC = () => {
                     </div>
                   </div>
 
-                  <Link
-                    to="/members"
-                    className="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all"
-                  >
-                    <Users className="w-4 h-4" />
-                    <span>Manage Members & View Directory</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Link
+                      to="/meals"
+                      className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all"
+                    >
+                      <Utensils className="w-4 h-4" />
+                      <span>Daily Meals</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <Link
+                      to="/members"
+                      className="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all"
+                    >
+                      <Users className="w-4 h-4" />
+                      <span>Mess Members</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
                 </div>
               ) : activeMess?.status === 'PENDING' ? (
                 <div className="p-5 bg-amber-50 rounded-2xl border border-amber-200 text-center">
@@ -206,7 +225,7 @@ export const DashboardPage: FC = () => {
 
       {/* Footer */}
       <footer className="border-t border-slate-200 py-6 bg-white text-center text-xs text-slate-500">
-        Mess Management System • Phase 3 Complete
+        Mess Management System • Phase 4 Complete
       </footer>
     </div>
   );
