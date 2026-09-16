@@ -7,6 +7,33 @@ export interface JWTPayload {
 
 export interface AuthRequest extends Request {
   user?: JWTPayload;
+  membership?: {
+    messId: number;
+    role: 'MANAGER' | 'MEMBER';
+    status: 'PENDING' | 'ACTIVE' | 'INACTIVE';
+  };
+}
+
+export interface MessDTO {
+  id: number;
+  name: string;
+  inviteCode: string;
+  address: string | null;
+  lunchCutoffTime: string;
+  dinnerCutoffTime: string;
+  createdByUserId: number;
+  createdAt: string;
+}
+
+export interface MemberDTO {
+  memberId: number;
+  userId: number;
+  name: string;
+  email: string;
+  phone: string | null;
+  role: 'MANAGER' | 'MEMBER';
+  status: 'PENDING' | 'ACTIVE' | 'INACTIVE';
+  joinedAt: string;
 }
 
 export interface UserDTO {
