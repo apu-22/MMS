@@ -15,29 +15,41 @@ export async function requireActiveMember(req: AuthRequest, res: Response, next:
 
     // Extract messId from route params, query, body, or custom header
     const rawMessId = req.params.messId || req.query.messId || req.body?.messId || req.headers['x-mess-id'];
-    const messId = Number(rawMessId);
+    let messId = Number(rawMessId);
+    let member: any = null;
 
     if (!messId || isNaN(messId)) {
-      throw new AppError('Valid Mess ID is required for this operation', 400, 'MESS_ID_REQUIRED');
-    }
+      // Auto-resolve: if no messId specified, use the user's active mess membership
+      const activeRows = await query<any[]>(
+        'SELECT mess_id, role, status FROM mess_members WHERE user_id = ? AND status = "ACTIVE" ORDER BY (role = "MANAGER") DESC, joined_at DESC LIMIT 1',
+        [userId]
+      );
 
-    const rows = await query<any[]>(
-      'SELECT id, role, status FROM mess_members WHERE mess_id = ? AND user_id = ? LIMIT 1',
-      [messId, userId]
-    );
+      if (activeRows.length === 0) {
+        throw new AppError('Valid Mess ID is required or no active mess membership found', 400, 'MESS_ID_REQUIRED');
+      }
 
-    if (rows.length === 0) {
-      throw new AppError('You are not a member of this mess', 403, 'NOT_A_MEMBER');
-    }
+      messId = Number(activeRows[0].mess_id);
+      member = activeRows[0];
+    } else {
+      const rows = await query<any[]>(
+        'SELECT id, role, status FROM mess_members WHERE mess_id = ? AND user_id = ? LIMIT 1',
+        [messId, userId]
+      );
 
-    const member = rows[0];
+      if (rows.length === 0) {
+        throw new AppError('You are not a member of this mess', 403, 'NOT_A_MEMBER');
+      }
 
-    if (member.status === 'PENDING') {
-      throw new AppError('Your join request for this mess is pending manager approval', 403, 'MEMBERSHIP_PENDING');
-    }
+      member = rows[0];
 
-    if (member.status !== 'ACTIVE') {
-      throw new AppError('Your membership in this mess is inactive', 403, 'MEMBERSHIP_INACTIVE');
+      if (member.status === 'PENDING') {
+        throw new AppError('Your join request for this mess is pending manager approval', 403, 'MEMBERSHIP_PENDING');
+      }
+
+      if (member.status !== 'ACTIVE') {
+        throw new AppError('Your membership in this mess is inactive', 403, 'MEMBERSHIP_INACTIVE');
+      }
     }
 
     // Attach membership context

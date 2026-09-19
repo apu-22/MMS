@@ -36,8 +36,14 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       // Select the first ACTIVE or PENDING mess membership if exists
       const currentActive = profile.memberships.find((m) => m.status === 'ACTIVE') || profile.memberships[0] || null;
       setActiveMess(currentActive);
+      if (currentActive?.messId) {
+        localStorage.setItem('activeMessId', String(currentActive.messId));
+      } else {
+        localStorage.removeItem('activeMessId');
+      }
     } catch {
       localStorage.removeItem('token');
+      localStorage.removeItem('activeMessId');
       setUser(null);
       setActiveMess(null);
       setToken(null);
@@ -58,6 +64,11 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
       setToken(data.token);
       setUser(data.user);
       setActiveMess(data.activeMembership || null);
+      if (data.activeMembership?.messId) {
+        localStorage.setItem('activeMessId', String(data.activeMembership.messId));
+      } else {
+        localStorage.removeItem('activeMessId');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -68,6 +79,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     try {
       const data = await authService.register(name, email, password, phone);
       localStorage.setItem('token', data.token);
+      localStorage.removeItem('activeMessId');
       setToken(data.token);
       setUser(data.user);
       setActiveMess(null);
@@ -78,6 +90,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('activeMessId');
     setToken(null);
     setUser(null);
     setActiveMess(null);

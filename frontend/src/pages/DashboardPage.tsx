@@ -54,10 +54,11 @@ export const DashboardPage: FC = () => {
     try {
       setIsLoading(true);
       setError(null);
+      const messId = activeMess.messId;
       const [sumData, ledgerData, myData] = await Promise.all([
-        dashboardService.getSummary(month),
-        dashboardService.getMemberLedger(month),
-        dashboardService.getMySummary(month),
+        dashboardService.getSummary(month, messId),
+        dashboardService.getMemberLedger(month, messId),
+        dashboardService.getMySummary(month, messId),
       ]);
 
       setSummary(sumData);
@@ -286,6 +287,29 @@ export const DashboardPage: FC = () => {
                 </div>
               </Link>
             </div>
+
+            {/* Manager Pending Alert Banner */}
+            {activeMess.role === 'MANAGER' && summary && summary.totalPendingDeposits > 0 && (
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl flex items-center justify-between gap-4 text-xs">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-amber-100 text-amber-700 rounded-xl">
+                    <Wallet className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-amber-900">Pending Deposits Awaiting Approval</h4>
+                    <p className="text-amber-700 text-[11px]">
+                      You have <strong>৳{summary.totalPendingDeposits.toFixed(2)}</strong> in member deposits waiting for your review.
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  to="/deposits"
+                  className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-xs transition-all shrink-0"
+                >
+                  Review Deposits →
+                </Link>
+              </div>
+            )}
 
             {/* 4 Core Financial KPI Metric Cards (Excel Overview) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

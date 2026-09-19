@@ -7,12 +7,16 @@ export const api = axios.create({
   },
 });
 
-// Request interceptor: automatically append Bearer token
+// Request interceptor: automatically append Bearer token and active mess id
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+    const activeMessId = localStorage.getItem('activeMessId');
+    if (activeMessId && config.headers) {
+      config.headers['x-mess-id'] = activeMessId;
     }
     return config;
   },
