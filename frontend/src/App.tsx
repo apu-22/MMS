@@ -8,6 +8,7 @@ import { OnboardingPage } from './pages/OnboardingPage';
 import { MembersPage } from './pages/MembersPage';
 import { MealsPage } from './pages/MealsPage';
 import { ExpensesPage } from './pages/ExpensesPage';
+import { DepositsPage } from './pages/DepositsPage';
 
 export default function App() {
   return (
@@ -64,6 +65,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <ExpensesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/deposits"
+            element={
+              <ProtectedRoute>
+                <DepositsPage />
               </ProtectedRoute>
             }
           />

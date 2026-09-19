@@ -5,6 +5,7 @@ import authRoutes from './routes/auth.routes';
 import messRoutes from './routes/mess.routes';
 import mealRoutes from './routes/meal.routes';
 import expenseRoutes from './routes/expense.routes';
+import depositRoutes from './routes/deposit.routes';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/messes', messRoutes);
 app.use('/api/meals', mealRoutes);
 app.use('/api/expenses', expenseRoutes);
+app.use('/api/deposits', depositRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req: Request, res: Response) => {

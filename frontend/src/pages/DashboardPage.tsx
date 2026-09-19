@@ -11,7 +11,8 @@ import {
   Users, 
   PlusCircle, 
   Clock,
-  Receipt
+  Receipt,
+  Wallet
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -31,7 +32,7 @@ export const DashboardPage: FC = () => {
               MessManager
             </span>
             <span className="ml-2 text-xs bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded-full border border-emerald-300">
-              Phase 5 Active
+              Phase 6 Active
             </span>
           </div>
 
@@ -51,6 +52,13 @@ export const DashboardPage: FC = () => {
                 >
                   <Receipt className="w-4 h-4 text-emerald-600" />
                   <span>Expenses</span>
+                </Link>
+                <Link
+                  to="/deposits"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 bg-slate-100 hover:bg-emerald-50 rounded-xl border border-slate-200 hover:border-emerald-200 transition-all cursor-pointer"
+                >
+                  <Wallet className="w-4 h-4 text-emerald-600" />
+                  <span>Deposits</span>
                 </Link>
                 <Link
                   to="/members"
@@ -147,7 +155,7 @@ export const DashboardPage: FC = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     <Link
                       to="/meals"
                       className="w-full py-3 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all"
@@ -161,6 +169,13 @@ export const DashboardPage: FC = () => {
                     >
                       <Receipt className="w-4 h-4" />
                       <span>Expenses</span>
+                    </Link>
+                    <Link
+                      to="/deposits"
+                      className="w-full py-3 px-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all"
+                    >
+                      <Wallet className="w-4 h-4" />
+                      <span>Deposits</span>
                     </Link>
                     <Link
                       to="/members"
@@ -237,7 +252,7 @@ export const DashboardPage: FC = () => {
 
       {/* Footer */}
       <footer className="border-t border-slate-200 py-6 bg-white text-center text-xs text-slate-500">
-        Mess Management System • Phase 5 Complete
+        Mess Management System • Phase 6 Complete
       </footer>
     </div>
   );
